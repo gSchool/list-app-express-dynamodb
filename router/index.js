@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-let title = "List";
+let title = "List Title (click me to change!)";
 const items = [];
 
 router.get("/health", (req, res) => {
@@ -40,4 +40,5 @@ router.delete("/item", (req, res) => {
   items.splice(req.body.index, 1);
   res.status(200).json(items);
 });
+
 module.exports = router;
