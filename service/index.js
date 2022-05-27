@@ -1,9 +1,5 @@
-// Calling .config() will allow dotenv to pull environment variables from our .env file...
-// require("dotenv").config();
-// ...made available from "process.env"
 const TableName = process.env.TABLE_NAME;
 const appId = parseInt(process.env.APP_ID);
-const { response } = require("express");
 // You'll need to call dynamoClient methods to envoke CRUD operations on the DynamoDB table
 const dynamoClient = require("../db");
 

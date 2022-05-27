@@ -4,9 +4,6 @@ const ListAppService = require('../service');
 
 const service = new ListAppService();
 
-let title = "List Title (click me to change!)";
-const items = [];
-
 router.get("/health", (req, res) => {
   res.status(200).send("healthy");
 });
