@@ -1,5 +1,8 @@
 const express = require("express");
 const router = express.Router();
+const ListAppService = require('../service');
+
+const service = new ListAppService();
 
 let title = "List Title (click me to change!)";
 const items = [];
@@ -9,36 +12,61 @@ router.get("/health", (req, res) => {
 });
 
 router.get("/title", (req, res) => {
-  res.status(200).send(title);
+  service.getTitle().then(response => {
+    console.log("GOT /title: " + response);
+    res.status(200).send(response);
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  })
 });
 
 router.post("/title", (req, res) => {
-  console.log("POST '/title' body: " + JSON.stringify(req.body));
-  title = req.body.title;
-  res.status(201).json({ title });
+  const { title } = req.body;
+  service.changeTitle(title).then(titleData => {
+    console.log("POSTED /title: " + titleData);
+    res.status(201).json({ title: titleData });
+  });
 });
 
 router.get("/list", (req, res) => {
-  console.log("GET '/list' body: " + JSON.stringify(items));
-  res.status(200).json({ items });
+  service.getList().then(listData => {
+    console.log("GOT '/list'" + JSON.stringify(listData));
+    res.status(200).send({ items: listData });
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  })
 });
 
 router.post("/item", (req, res) => {
-  console.log("POST '/item' body: " + JSON.stringify(req.body));
-  items.push(req.body);
-  res.status(201).json(items);
+  service.addToList(req.body.item).then(listData => {
+    console.log("POSTED '/item' body: " + JSON.stringify(listData));
+    res.status(200).send(listData);
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  })
 });
 
 router.patch("/item", (req, res) => {
-  console.log("PATCH '/item' body: " + JSON.stringify(req.body));
-  items[req.body.index].name = req.body.name;
-  res.status(200).json(items);
+  service.updateItem(req.body.index, req.body.name).then(listData => {
+    console.log("UPDATED '/item' body: " + JSON.stringify(listData));
+    res.status(200).send(listData);
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  })
 });
 
 router.delete("/item", (req, res) => {
-  console.log("DELETE '/item' body: " + JSON.stringify(req.body));
-  items.splice(req.body.index, 1);
-  res.status(200).json(items);
+  service.deleteItem(req.body.index).then(listData => {
+    console.log("DELETED '/item' body: " + JSON.stringify(listData));
+    res.status(200).send(listData);
+  })
+  .catch(err => {
+    res.status(500).send(err);
+  })
 });
 
 module.exports = router;
