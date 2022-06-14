@@ -39,7 +39,7 @@ router.get("/list", (req, res) => {
 router.post("/item", (req, res) => {
   service.addToList(req.body.item).then(listData => {
     console.log("POSTED '/item' body: " + JSON.stringify(listData));
-    res.status(200).send(listData);
+    res.status(201).send(listData);
   })
   .catch(err => {
     res.status(500).send(err);
