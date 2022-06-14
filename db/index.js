@@ -6,7 +6,7 @@ AWS.config.update({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 });
 
-// You'll need to call dynamoClient methods to envoke CRUD operations on the DynamoDB table
+// You'll need to call dynamoClient methods to invoke CRUD operations on the DynamoDB table
 const dynamoClient = new AWS.DynamoDB.DocumentClient();
 
 /* 
