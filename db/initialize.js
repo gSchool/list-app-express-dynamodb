@@ -1,10 +1,18 @@
 const TableName = process.env.TABLE_NAME;
 const appId = parseInt(process.env.APP_ID);
 
-module.exports = initialize = async (dynamoClient) => {
-  const params = {
-    TableName,
-  };
+const params = {
+  TableName,
+  Key: {
+    id: appId
+  }
+};
+
+exports.dropTable = dropTable = async (dynamoClient) => {
+  await dynamoClient.delete(params).promise();
+};
+
+exports.initialize = initialize = async (dynamoClient) => {
   await dynamoClient
     .scan(params)
     .promise()

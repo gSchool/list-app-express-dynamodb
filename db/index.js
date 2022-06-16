@@ -14,7 +14,8 @@ const dynamoClient = new AWS.DynamoDB.DocumentClient();
   is empty. We'll put an empty record in it to as a way to
   "define our schema"
 */
-const initializeDB = require('./initialize');
-initializeDB(dynamoClient);
+
+const { initialize } = require('./initialize');
+initialize(dynamoClient);
 
 module.exports = dynamoClient;
