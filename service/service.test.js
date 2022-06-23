@@ -6,19 +6,21 @@ const { dropTable, initialize } = require("../db/initialize");
 
 describe("List Service Tests", () => {
   beforeAll(async () => {
-    await dropTable(dynamoClient);
-    await initialize(dynamoClient);
+    // await dropTable(dynamoClient);
+    // await initialize(dynamoClient);
   });
 
   beforeEach(async () => {
-    dynamoClient.put({
-      TableName: process.env.TABLE_NAME,
-      Item: {
-        id: process.env.APP_ID,
-        items: [],
-        title: "List Title (click me to change!)",
-      }
-    })
+    await dropTable(dynamoClient);
+    await initialize(dynamoClient);
+    // await dynamoClient.put({
+    //   TableName: process.env.TABLE_NAME,
+    //   Item: {
+    //     id: process.env.APP_ID,
+    //     items: [],
+    //     title: "List Title (click me to change!)",
+    //   }
+    // })
   });
 
   it("should runs tests", () => {
@@ -67,8 +69,12 @@ describe("List Service Tests", () => {
     const item2 = {
       name: "a 2nd item description",
     };
+    const item3 = {
+      name: "a 3rd item description",
+    };
     await service.addToList(item);
     await service.addToList(item2);
+    await service.addToList(item3);
 
     await service.updateItem(1, "an updated description");
     const actual = await service.getList();
@@ -79,6 +85,9 @@ describe("List Service Tests", () => {
       },
       {
         name: "an updated description",
+      },
+      {
+        name: "a 3rd item description"
       }
     ])
   });
